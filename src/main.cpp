@@ -52,15 +52,17 @@ int main()
         return EXIT_FAILURE;
     }
 
-
-    Player player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 8, 8, 10, 5);
+        // f = freq (speed of reponse f->+ sp->+)
+        // z = amplitude of vibration (z=1 not stabilize, z<1 vibrate, z=1 crit, z>1 not vibra)
+        // r = systeme reponse (r>1 overshot, r=1 imidiate, 0<r<1 take time, r<0 anticipate)
+    Player player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 10, 10, 10, 10, 2, 0.8, 1.5); 
+    // 4.5, 0.5, 0     late to stop
+    // 4.5, 1, 0    perfect
     Input input;
-
-
     unsigned int frame_limit = 0;
 
     while (!input.quitRequested()) {
-        input.update(); // Mettre à jour les entrées utilisateur
+        input.update(); 
 
         // Clear the screen
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -74,7 +76,8 @@ int main()
         // Update the screen
         SDL_RenderPresent(renderer);
 
-        frame_limit = SDL_GetTicks() + FPS_LIMIT; // affiche à 60fps max
+        // à refaire
+        frame_limit = SDL_GetTicks() + FPS_LIMIT;
         SDL_Delay(frame_limit - SDL_GetTicks());
     }
 

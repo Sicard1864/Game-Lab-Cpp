@@ -1,6 +1,9 @@
 // -- IMPLEMENTATION ---------------------------------------------------------------------------- //
 
 #include "player.hpp"
+#include <algorithm> 
+
+const double PI = 3.14;
 
 
 // -- Constructors ------------------------------------------------------------------------------ //
@@ -8,60 +11,84 @@
 Player::Player() : 
     w(4), 
     h(4), 
-    pos({10, 10}), 
+    pos_pi({10, 10}),
+    pos_i({10, 10}), 
+    pos({10, 10}),
     speed({0, 0}), 
     accel({0, 0}),
     direction(Direction::RIGHT),
     speedMax(5),
-    accelMax(2)
+    accelMax(2),
+    k1(1 / (PI * 4.5)),
+    k2(1 / ((2 * PI * 4.5) * (2 * PI * 4.5))),
+    k3(0 * 1 / (2 * PI * 4.5))
 {}
 
-Player::Player(double _x, double _y, int _w, int _h, double _speedMax, double _accelMax) : 
+Player::Player(double _x, double _y, int _w, int _h, double _speedMax, double _accelMax, 
+                double f, double z, double r) : 
     w(_w), 
     h(_h), 
-    pos({_x, _y}), 
+    pos_pi({_x, _y}),
+    pos_i({_x, _y}), 
+    pos({_x, _y}),
     speed({0, 0}), 
     accel({0, 0}),
     direction(Direction::RIGHT),
     speedMax(_speedMax),
-    accelMax(_accelMax)
+    accelMax(_accelMax),
+    k1(z / (PI * f)),
+    k2(1 / ((2 * PI * f) * (2 * PI * f))),
+    k3(r * z / (2 * PI * f))
 {}
 
 
 // -- Methods ----------------------------------------------------------------------------------- //
 
 void Player::handleInput(const Input& input) {
+    if (input.isKeyPressed(SDL_SCANCODE_T)) {
+        if (w < 100) {
+            h *= 1.2;
+            w *= 1.2;
+        }
+    }
+    if (input.isKeyPressed(SDL_SCANCODE_Y)) {
+        if (w > 5) {
+            h /= 1.2;
+            w /= 1.2;
+        }
+    }
     if (input.getDirection() != Direction::NONE) {
         const double speedMaxDiago = speedMax / sqrt(2.0);
         direction = input.getDirection();
         switch (direction) {
             case Direction::UP:
-                pos.y -= speedMax;
+                pos_i.x += 0;
+                pos_i.y -= speedMax;
                 break;
             case Direction::UP_RIGHT:
-                pos.y -= speedMaxDiago;
-                pos.x += speedMaxDiago;
+                pos_i.x += speedMaxDiago;
+                pos_i.y -= speedMaxDiago;
                 break;
             case Direction::RIGHT:
-                pos.x += speedMax;
+                pos_i.x += speedMax;
                 break;
             case Direction::DOWN_RIGHT:
-                pos.y += speedMaxDiago;
-                pos.x += speedMaxDiago;
+                pos_i.x += speedMaxDiago;
+                pos_i.y += speedMaxDiago;
                 break;
             case Direction::DOWN:
-                pos.y += speedMax;
+                pos_i.y += speedMax;
                 break;
             case Direction::DOWN_LEFT:
-                pos.y += speedMaxDiago;
-                pos.x -= speedMaxDiago;
+                pos_i.x -= speedMaxDiago;
+                pos_i.y += speedMaxDiago;
                 break;
             case Direction::LEFT:
-                pos.x -= speedMax;
+                pos_i.x -= speedMax;
                 break;
             case Direction::UP_LEFT:
-                pos.y -= speedMaxDiago;
-                pos.x -= speedMaxDiago;
+                pos_i.x -= speedMaxDiago;
+                pos_i.y -= speedMaxDiago;
                 break;
             default:
                 // No movement if no valid direction
@@ -70,14 +97,26 @@ void Player::handleInput(const Input& input) {
     }
 }
 
+void Player::coordinateUpdate() {
+    double T = 0.01667;
+    Coordinate speed_e = {(pos_i.x - pos_pi.x) / T, (pos_i.y - pos_pi.y) / T};
+    pos_pi = {pos_i.x, pos_i.y};
+    //double k2_stad = std::max({k2, T * T / 2 + T * k1 / 2, T * k1});
+    pos = {pos.x + T*speed.x, pos.y + T*speed.y};
+    speed = {speed.x + T*(pos_i.x + k3*speed_e.x - pos.x - k1*speed.x) / k2,
+            speed.y + T*(pos_i.y + k3*speed_e.y - pos.y - k1*speed.y) / k2};
 
-// vectorUpdate
+    //cout << endl << pos.x << "\t" << (int)pos.x << "\t" << pos_i.x << "\t" << (int)pos_i.x;
+    //cout << endl << speed.x << "\t" << speed_e.x;
+    //cout << endl << "k1: " << k1 << "\t" << "k2: " << k2 << "\t" << "k3: " << k3;
+}
 
 void Player::move() {
     // Additional movement logic can be added here
 }
 
 void Player::displayOn(SDL_Renderer* renderer) {
+    coordinateUpdate();
     SDL_Rect rect = { (int)pos.x - w/2, (int)pos.y - h/2, w, h };
 
     // Display the square
@@ -86,9 +125,9 @@ void Player::displayOn(SDL_Renderer* renderer) {
     SDL_RenderFillRect(renderer, &rect);
 
     // Calculate the position for the point based on the direction
-    int pointDirecX = static_cast<int>(pos.x);
-    int pointDirecY = static_cast<int>(pos.y);
-    int const d = 10;
+    int pointDirecX = static_cast<int>(pos_i.x);
+    int pointDirecY = static_cast<int>(pos_i.y);
+    int const d = w + 2 + w/2;
     int const diago_d = d / sqrt(2.0);
     switch (direction) {
         case Direction::UP:

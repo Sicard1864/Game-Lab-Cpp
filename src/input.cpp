@@ -75,7 +75,7 @@ Direction Input::getDirection() const {
     } else if (right && (up ^ !down) && !left) {
         return Direction::RIGHT;
     } else {
-        return Direction::NONE;  // You might want to define a NONE direction or handle this case accordingly
+        return Direction::NONE;
     }
 }
 
