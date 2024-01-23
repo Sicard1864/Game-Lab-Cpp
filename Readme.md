@@ -1,6 +1,6 @@
 ## ToDo List
 
-developper la branche :
+### Développer la branche :
 Gameplay
 - movement avancer
 - collition
