@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "player.hpp"
+#include "entity.hpp"
 #include "input.hpp"
 
 const int SCREEN_WIDTH = 1000;
@@ -59,6 +60,7 @@ int main()
     // 4.5, 0.5, 0     late to stop
     // 4.5, 1, 0    imidiately
     // 6, 0.95, -0.5       perfect
+    Entity entity(20, 20, 200, 50, 5, 10); 
     Input input;
     unsigned int frame_limit = 0;
 
@@ -71,8 +73,12 @@ int main()
 
         // Move and draw the player
         player.handleInput(input);
-        player.move();
+        //player.move();
         player.displayOn(renderer);
+
+        // Move and draw the entity
+        entity.handleInput(input);
+        entity.displayOn(renderer);
 
         // Update the screen
         SDL_RenderPresent(renderer);

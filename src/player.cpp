@@ -9,16 +9,14 @@ const double PI = 3.14;
 // -- Constructors ------------------------------------------------------------------------------ //
 
 Player::Player() : 
-    w(4), 
-    h(4), 
-    pos_pi({10, 10}),
-    pos_i({10, 10}), 
-    pos({10, 10}),
-    speed({0, 0}), 
-    accel({0, 0}),
-    direction(Direction::RIGHT),
-    speedMax(5),
-    accelMax(2),
+    Entity(),
+    k1(1 / (PI * 4.5)),
+    k2(1 / ((2 * PI * 4.5) * (2 * PI * 4.5))),
+    k3(0 * 1 / (2 * PI * 4.5))
+{}
+
+Player::Player(double _x, double _y, int _w, int _h, double _speedMax, double _accelMax) : 
+    Entity(_x, _y, _w, _h, _speedMax, _accelMax),
     k1(1 / (PI * 4.5)),
     k2(1 / ((2 * PI * 4.5) * (2 * PI * 4.5))),
     k3(0 * 1 / (2 * PI * 4.5))
@@ -26,16 +24,7 @@ Player::Player() :
 
 Player::Player(double _x, double _y, int _w, int _h, double _speedMax, double _accelMax, 
                 double f, double z, double r) : 
-    w(_w), 
-    h(_h), 
-    pos_pi({_x, _y}),
-    pos_i({_x, _y}), 
-    pos({_x, _y}),
-    speed({0, 0}), 
-    accel({0, 0}),
-    direction(Direction::RIGHT),
-    speedMax(_speedMax),
-    accelMax(_accelMax),
+    Entity(_x, _y, _w, _h, _speedMax, _accelMax),
     k1(z / (PI * f)),
     k2(1 / ((2 * PI * f) * (2 * PI * f))),
     k3(r * z / (2 * PI * f))
@@ -102,9 +91,10 @@ void Player::coordinateUpdate() {
     Coordinate speed_e = {(pos_i.x - pos_pi.x) / T, (pos_i.y - pos_pi.y) / T};
     pos_pi = {pos_i.x, pos_i.y};
     //double k2_stad = std::max({k2, T * T / 2 + T * k1 / 2, T * k1});
-    pos = {pos.x + T*speed.x, pos.y + T*speed.y};
-    speed = {speed.x + T*(pos_i.x + k3*speed_e.x - pos.x - k1*speed.x) / k2,
-            speed.y + T*(pos_i.y + k3*speed_e.y - pos.y - k1*speed.y) / k2};
+    Coordinate pos_u = {pos.x + T*speed.x, pos.y + T*speed.y};
+    Coordinate speed_u = {speed.x + T*(pos_i.x + k3*speed_e.x - pos_u.x - k1*speed.x) / k2,
+            speed.y + T*(pos_i.y + k3*speed_e.y - pos_u.y - k1*speed.y) / k2};
+    return pos_u, speed_u;
 
     //cout << endl << pos.x << "\t" << (int)pos.x << "\t" << pos_i.x << "\t" << (int)pos_i.x;
     //cout << endl << speed.x << "\t" << speed_e.x;
@@ -112,7 +102,12 @@ void Player::coordinateUpdate() {
 }
 
 void Player::move() {
-    // Additional movement logic can be added here
+    Coordinate pos_futur, speed_futur = coordinateUpdate();
+    Coordinate co = {(double)input.getMouseX(), (double)input.getMouseY()};
+    if (!isCollide({ co.x, co.y })) {
+        pos = pos_futur;
+        speed = speed_futur;
+    }
 }
 
 void Player::displayOn(SDL_Renderer* renderer) {

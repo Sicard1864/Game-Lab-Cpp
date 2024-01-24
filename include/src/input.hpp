@@ -20,6 +20,11 @@ enum class Direction {
     NONE,
 };
 
+struct Coordinate {
+    double x;
+    double y;
+};
+
 
 // -- Class ------------------------------------------------------------------------------------- //
 
