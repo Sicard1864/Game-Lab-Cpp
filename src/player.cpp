@@ -111,7 +111,6 @@ void Player::move() {
 }
 
 void Player::displayOn(SDL_Renderer* renderer) {
-    coordinateUpdate();
     SDL_Rect rect = { (int)pos.x - w/2, (int)pos.y - h/2, w, h };
 
     // Display the square

@@ -42,6 +42,34 @@ bool Entity::isCollide(const Coordinate &co) {
     return false;
 }
 
+bool Entity::isCollide(const Coordinate &co) {
+    if ((pos.x-w < co.x && co.x < pos.x+w) && (pos.y-h < co.y && co.y < pos.y+h)) {
+        return true;
+    }
+    return false;
+}
+
+bool Entity::isCollision(const Rectangle& rect1, const Rectangle& rect2) {
+    // Vérifie si l'un des rectangles est à gauche de l'autre
+    if (rect1.x + rect1.width < rect2.x || rect2.x + rect2.width < rect1.x) {
+        return false;
+    }
+    // Vérifie si l'un des rectangles est à droite de l'autre
+    if (rect1.x > rect2.x + rect2.width || rect2.x > rect1.x + rect1.width) {
+        return false;
+    }
+    // Vérifie si l'un des rectangles est au-dessus de l'autre
+    if (rect1.y + rect1.height < rect2.y || rect2.y + rect2.height < rect1.y) {
+        return false;
+    }
+    // Vérifie si l'un des rectangles est en dessous de l'autre
+    if (rect1.y > rect2.y + rect2.height || rect2.y > rect1.y + rect1.height) {
+        return false;
+    }
+    // Si aucune des conditions ci-dessus n'est vérifiée, il y a une collision
+    return true;
+}
+
 void Entity::handleInput(const Input& input) {
     Coordinate co = {(double)input.getMouseX(), (double)input.getMouseY()};
     if (input.isMouseButtonPressed(SDL_BUTTON_LEFT) && isCollide({ co.x, co.y })) {
