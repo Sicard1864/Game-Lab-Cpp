@@ -125,8 +125,9 @@ void Player::displayOn(SDL_Renderer* renderer) {
     SDL_RenderFillRect(renderer, &rect);
 
     // Calculate the position for the point based on the direction
-    int pointDirecX = static_cast<int>(pos_i.x);
-    int pointDirecY = static_cast<int>(pos_i.y);
+    
+    int pointDirecX = static_cast<int>(pos.x);
+    int pointDirecY = static_cast<int>(pos.y);
     int const d = w + 2 + w/2;
     int const diago_d = d / sqrt(2.0);
     switch (direction) {
@@ -159,13 +160,12 @@ void Player::displayOn(SDL_Renderer* renderer) {
             pointDirecY -= diago_d;
             break;
         default:
-            // No point for an invalid direction
             break;
     }
 
-    // Display the additional point
     SDL_SetRenderDrawColor(renderer, 100, 255, 100, 255);
     SDL_Rect littleRect = { pointDirecX - w/4, pointDirecY - h/4, w/2, h/2 };
     SDL_RenderDrawRect(renderer, &littleRect);
+    
 }
 
