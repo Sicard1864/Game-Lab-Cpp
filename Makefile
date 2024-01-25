@@ -26,8 +26,8 @@ INC_TEST_PATHS = -I$(INCLUDE_DIR)/$(TEST_DIR)
 LIB_PATHS = $(LIB_PATHS)
 
 # List of source files
-SRCS = $(wildcard $(SRC_DIR)/*.cpp)
-TEST_SRCS = $(wildcard $(TEST_DIR)/*.cpp)
+SRCS = $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/**/*.cpp)
+TEST_SRCS = $(wildcard $(TEST_DIR)/*.cpp) $(wildcard $(TEST_DIR)/**/*.cpp)
 
 # List of object files
 OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(BUILD_DIR_SRC)/%.o, $(SRCS))
@@ -36,22 +36,18 @@ TEST_OBJS = $(filter-out $(BUILD_DIR_SRC)/main.o, $(OBJS)) $(patsubst $(TEST_DIR
 
 # Build main program
 $(TARGET): $(OBJS)
-	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Build test program
 $(TEST_TARGET): $(TEST_OBJS)
-	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 # Compile source files
 $(BUILD_DIR_SRC)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(BUILD_DIR_SRC)
 	$(CXX) $(CXXFLAGS) $(INC_SRC_PATHS) -c -o $@ $<
 
 # Compile test files
 $(BUILD_DIR_TEST)/%.o: $(TEST_DIR)/%.cpp
-	@mkdir -p $(BUILD_DIR_TEST)
 	$(CXX) $(CXXFLAGS) $(INC_SRC_PATHS) $(INC_TEST_PATHS) -c -o $@ $<
 	
 	
@@ -77,7 +73,7 @@ run_test: $(TEST_TARGET)
 	@./$(TEST_TARGET)
 
 clean:
-	rm -rf $(BUILD_DIR)/$(SRC_DIR)/*.o $(BUILD_DIR)/$(TEST_DIR)/*.o $(BIN_DIR)/*
+	rm -rf $(BUILD_DIR)/$(SRC_DIR)/**/*.o $(BUILD_DIR)/$(SRC_DIR)/*.o $(BUILD_DIR)/$(TEST_DIR)/**/*.o $(BUILD_DIR)/$(TEST_DIR)/*.o $(BIN_DIR)/*
 	
 clean_build:
-	rm -rf $(BUILD_DIR)/$(SRC_DIR)/*.o $(BUILD_DIR)/$(TEST_DIR)/*.o
+	rm -rf $(BUILD_DIR)/$(SRC_DIR)/**/*.o $(BUILD_DIR)/$(SRC_DIR)/*.o $(BUILD_DIR)/$(TEST_DIR)/**/*.o $(BUILD_DIR)/$(TEST_DIR)/*.o

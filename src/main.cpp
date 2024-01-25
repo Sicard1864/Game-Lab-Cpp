@@ -9,9 +9,9 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-#include "player.hpp"
-#include "entity.hpp"
-#include "input.hpp"
+#include "Model/player.hpp"
+#include "Model/entity.hpp"
+#include "Controller/input.hpp"
 
 const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 600;
@@ -26,7 +26,6 @@ int main()
 
     SDL_Window *window = nullptr;
     SDL_Renderer *renderer = nullptr;
-    int statut = EXIT_FAILURE;
 
     if (SDL_Init(SDL_INIT_VIDEO != 0)) {
         cerr << endl << "Erreur SDL_Init : " << SDL_GetError();
@@ -93,5 +92,5 @@ int main()
     SDL_Quit();
 
     std::cout << std::endl << "Fin du programme" << std::endl;
-    return statut;
+    return EXIT_SUCCESS;
 }
