@@ -114,52 +114,14 @@ void Player::displayOn(SDL_Renderer* renderer) {
     SDL_Rect rect = { (int)pos.x - w/2, (int)pos.y - h/2, w, h };
 
     // Display the square
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 100, 255, 100, 255);
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
 
-    // Calculate the position for the point based on the direction
     
-    int pointDirecX = static_cast<int>(pos.x);
-    int pointDirecY = static_cast<int>(pos.y);
-    int const d = w + 2 + w/2;
-    int const diago_d = d / sqrt(2.0);
-    switch (direction) {
-        case Direction::UP:
-            pointDirecY -= d;
-            break;
-        case Direction::UP_RIGHT:
-            pointDirecX += diago_d;
-            pointDirecY -= diago_d;
-            break;
-        case Direction::RIGHT:
-            pointDirecX += d;
-            break;
-        case Direction::DOWN_RIGHT:
-            pointDirecX += diago_d;
-            pointDirecY += diago_d;
-            break;
-        case Direction::DOWN:
-            pointDirecY += d;
-            break;
-        case Direction::DOWN_LEFT:
-            pointDirecX -= diago_d;
-            pointDirecY += diago_d;
-            break;
-        case Direction::LEFT:
-            pointDirecX -= d;
-            break;
-        case Direction::UP_LEFT:
-            pointDirecX -= diago_d;
-            pointDirecY -= diago_d;
-            break;
-        default:
-            break;
-    }
-
-    SDL_SetRenderDrawColor(renderer, 100, 255, 100, 255);
-    SDL_Rect littleRect = { pointDirecX - w/4, pointDirecY - h/4, w/2, h/2 };
-    SDL_RenderDrawRect(renderer, &littleRect);
+    SDL_SetRenderDrawColor(renderer, 255, 100, 100, 255);
+    SDL_Rect targetRect = { (int)pos_i.x - w/2, (int)pos_i.y - h/2, w, h };
+    SDL_RenderDrawRect(renderer, &targetRect);
     
 }
 
