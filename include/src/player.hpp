@@ -24,8 +24,8 @@ class Player : public Entity
 
     // methods
         void handleInput(const Input&) override;
-        void coordinateUpdate();
-        void move() override;
+        tuple<Coordinate, Coordinate> coordinateUpdate();
+        void move(const Input& input);
         void displayOn(SDL_Renderer*) override;
 
     private:

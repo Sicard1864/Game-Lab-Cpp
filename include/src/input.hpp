@@ -35,7 +35,7 @@ class Input
         Input();
         ~Input();
 
-    // accesors
+    // accessors
         bool isKeyPressed(SDL_Scancode key) const;
         bool isKeyPressed(SDL_KeyCode key) const;
         bool isMouseButtonPressed(Uint8 button) const;

@@ -86,7 +86,7 @@ void Player::handleInput(const Input& input) {
     }
 }
 
-void Player::coordinateUpdate() {
+tuple<Coordinate, Coordinate> Player::coordinateUpdate() {
     double T = 0.01667;
     Coordinate speed_e = {(pos_i.x - pos_pi.x) / T, (pos_i.y - pos_pi.y) / T};
     pos_pi = {pos_i.x, pos_i.y};
@@ -94,15 +94,15 @@ void Player::coordinateUpdate() {
     Coordinate pos_u = {pos.x + T*speed.x, pos.y + T*speed.y};
     Coordinate speed_u = {speed.x + T*(pos_i.x + k3*speed_e.x - pos_u.x - k1*speed.x) / k2,
             speed.y + T*(pos_i.y + k3*speed_e.y - pos_u.y - k1*speed.y) / k2};
-    return pos_u, speed_u;
+    return make_tuple(pos_u, speed_u);
 
     //cout << endl << pos.x << "\t" << (int)pos.x << "\t" << pos_i.x << "\t" << (int)pos_i.x;
     //cout << endl << speed.x << "\t" << speed_e.x;
     //cout << endl << "k1: " << k1 << "\t" << "k2: " << k2 << "\t" << "k3: " << k3;
 }
 
-void Player::move() {
-    Coordinate pos_futur, speed_futur = coordinateUpdate();
+void Player::move(const Input& input) {
+    auto [pos_futur, speed_futur] = coordinateUpdate();
     Coordinate co = {(double)input.getMouseX(), (double)input.getMouseY()};
     if (!isCollide({ co.x, co.y })) {
         pos = pos_futur;

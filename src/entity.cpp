@@ -42,13 +42,7 @@ bool Entity::isCollide(const Coordinate &co) {
     return false;
 }
 
-bool Entity::isCollide(const Coordinate &co) {
-    if ((pos.x-w < co.x && co.x < pos.x+w) && (pos.y-h < co.y && co.y < pos.y+h)) {
-        return true;
-    }
-    return false;
-}
-
+/*
 bool Entity::isCollision(const Rectangle& rect1, const Rectangle& rect2) {
     // Vérifie si l'un des rectangles est à gauche de l'autre
     if (rect1.x + rect1.width < rect2.x || rect2.x + rect2.width < rect1.x) {
@@ -68,7 +62,7 @@ bool Entity::isCollision(const Rectangle& rect1, const Rectangle& rect2) {
     }
     // Si aucune des conditions ci-dessus n'est vérifiée, il y a une collision
     return true;
-}
+}*/
 
 void Entity::handleInput(const Input& input) {
     Coordinate co = {(double)input.getMouseX(), (double)input.getMouseY()};

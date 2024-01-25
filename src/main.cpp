@@ -73,7 +73,7 @@ int main()
 
         // Move and draw the player
         player.handleInput(input);
-        player.move();
+        player.move(input);
         player.displayOn(renderer);
 
         // Move and draw the entity
