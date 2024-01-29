@@ -2,10 +2,10 @@
 CXX = g++
 
 # Flags for compilation
-CXXFLAGS = -std=c++17 -Wall -Wextra -Werror `sdl2-config --cflags`
+CXXFLAGS = -std=c++17 -Wall -Wextra -Werror
 
 # Flags for linking
-LDFLAGS = `sdl2-config --libs`
+LDFLAGS := -Llib\ -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_net -lSDL2_ttf -lSDL2main
 
 SRC_DIR = src
 TEST_DIR = test

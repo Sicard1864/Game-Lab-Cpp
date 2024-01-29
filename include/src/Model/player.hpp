@@ -4,10 +4,12 @@
 #define PLAYER_HPP
 
 #include <SDL2/SDL.h>
+#include <tuple>
+#include <cmath>
 #include "Controller/input.hpp"
 #include "Model/entity.hpp"
 
-
+using namespace std;
 // -- Class ------------------------------------------------------------------------------------- //
 
 class Player : public Entity
