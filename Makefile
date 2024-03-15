@@ -7,15 +7,15 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -Werror `sdl2-config --cflags`
 # Flags for linking
 LDFLAGS = `sdl2-config --libs`
 
-SRC_DIR = src
-TEST_DIR = test
-INCLUDE_DIR = include
-BUILD_DIR = build
-LIB_DIR = lib
-BIN_DIR = bin
+SRC_DIR = Src
+TEST_DIR = Test
+INCLUDE_DIR = Include
+BUILD_DIR = Build
+LIB_DIR = Lib
+BIN_DIR = Bin
 
-BUILD_DIR_SRC = $(BUILD_DIR)/$(SRC_DIR)
-BUILD_DIR_TEST = $(BUILD_DIR)/$(TEST_DIR)
+BUILD_DIR_SRC = $(BUILD_DIR)/Linux/$(SRC_DIR)
+BUILD_DIR_TEST = $(BUILD_DIR)/Linux/$(TEST_DIR)
 
 TARGET = $(BIN_DIR)/my_program
 TEST_TARGET = $(BIN_DIR)/test_program
@@ -58,11 +58,9 @@ default: c run
 
 all: clean c_all run_all
 
-c_all: $(TARGET) $(TEST_TARGET)
+def: clean c run
 
-c: $(TARGET)
-
-c_test: $(TEST_TARGET)
+test: clean c_all run_test
 
 run_all: run_test run
 
@@ -72,8 +70,14 @@ run: $(TARGET)
 run_test: $(TEST_TARGET)
 	@./$(TEST_TARGET)
 
+c_all: $(TARGET) $(TEST_TARGET)
+
+c: $(TARGET)
+
+c_test: $(TEST_TARGET)
+
 clean:
-	rm -rf $(BUILD_DIR)/$(SRC_DIR)/**/*.o $(BUILD_DIR)/$(SRC_DIR)/*.o $(BUILD_DIR)/$(TEST_DIR)/**/*.o $(BUILD_DIR)/$(TEST_DIR)/*.o $(BIN_DIR)/*
+	rm -rf $(BUILD_DIR_SRC)/**/*.o $(BUILD_DIR_SRC)/*.o $(BUILD_DIR_TEST)/**/*.o $(BUILD_DIR_TEST)/*.o $(BIN_DIR)/*
 	
 clean_build:
-	rm -rf $(BUILD_DIR)/$(SRC_DIR)/**/*.o $(BUILD_DIR)/$(SRC_DIR)/*.o $(BUILD_DIR)/$(TEST_DIR)/**/*.o $(BUILD_DIR)/$(TEST_DIR)/*.o
+	rm -rf $(BUILD_DIR_SRC)/**/*.o $(BUILD_DIR_SRC)/*.o $(BUILD_DIR_TEST)/**/*.o $(BUILD_DIR_TEST)/*.o
