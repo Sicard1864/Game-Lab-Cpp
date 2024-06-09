@@ -6,8 +6,8 @@
 //  
 // ---------------------------------------------------------------------------------------------- //
 
-#include <SDL2/SDL.h>
 #include <iostream>
+#include <SDL2/SDL.h>
 
 #include "Model/player.hpp"
 #include "Model/entity.hpp"
@@ -20,7 +20,7 @@ const int FPS_LIMIT = 33;
 
 // -- Main -------------------------------------------------------------------------------------- //
 
-int WinMain() 
+int main() 
 {
     cout << endl << "lanch prog";
 
