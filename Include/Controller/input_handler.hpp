@@ -1,7 +1,7 @@
 // -- HEADER ------------------------------------------------------------------------------------ //
 
-#ifndef INPUT_HPP
-#define INPUT_HPP
+#ifndef INPUTHANDLER_HPP
+#define INPUTHANDLER_HPP
 
 #include <SDL2/SDL.h>
 #include <iostream>
@@ -9,6 +9,7 @@ using namespace std;
 
 
 enum class Direction {
+    NONE,
     UP,
     UP_RIGHT,
     RIGHT,
@@ -17,7 +18,6 @@ enum class Direction {
     DOWN_LEFT,
     LEFT,
     UP_LEFT,
-    NONE,
 };
 
 struct Coordinate {
@@ -28,12 +28,12 @@ struct Coordinate {
 
 // -- Class ------------------------------------------------------------------------------------- //
 
-class Input
+class InputHandler
 {
     public:
     // constructors
-        Input();
-        ~Input();
+        InputHandler();
+        ~InputHandler();
 
     // accessors
         bool isKeyPressed(SDL_Scancode key) const;

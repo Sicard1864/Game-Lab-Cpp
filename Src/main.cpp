@@ -11,7 +11,7 @@
 
 #include "Model/player.hpp"
 #include "Model/entity.hpp"
-#include "Controller/input.hpp"
+#include "Controller/input_handler.hpp"
 
 const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 600;
@@ -60,7 +60,7 @@ int main()
     // 4.5, 1, 0    imidiately
     // 6, 0.95, -0.5       perfect
     Entity entity(20, 20, 200, 50, 5, 10); 
-    Input input;
+    InputHandler input;
     unsigned int frame_limit = 0;
 
     while (!input.quitRequested()) {
