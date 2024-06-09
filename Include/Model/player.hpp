@@ -4,7 +4,7 @@
 #define PLAYER_HPP
 
 #include <SDL2/SDL.h>
-#include "Controller/input_handler.hpp"
+#include "Controller/event_handler.hpp"
 #include "Model/entity.hpp"
 
 
@@ -23,9 +23,9 @@ class Player : public Entity
                 double z, double r);
 
     // methods
-        void handleInput(const InputHandler&) override;
+        void handleInput(const EventHandler&) override;
         tuple<Coordinate, Coordinate> coordinateUpdate();
-        void move(const InputHandler& input);
+        void move(const EventHandler& input);
         void displayOn(SDL_Renderer*) override;
 
     private:

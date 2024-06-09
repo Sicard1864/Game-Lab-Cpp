@@ -1,7 +1,7 @@
 // -- HEADER ------------------------------------------------------------------------------------ //
 
-#ifndef INPUTHANDLER_HPP
-#define INPUTHANDLER_HPP
+#ifndef EVENTHANDLER_HPP
+#define EVENTHANDLER_HPP
 
 #include <SDL2/SDL.h>
 #include <iostream>
@@ -28,12 +28,12 @@ struct Coordinate {
 
 // -- Class ------------------------------------------------------------------------------------- //
 
-class InputHandler
+class EventHandler
 {
     public:
     // constructors
-        InputHandler();
-        ~InputHandler();
+        EventHandler();
+        ~EventHandler();
 
     // accessors
         bool isKeyPressed(SDL_Scancode key) const;
@@ -48,8 +48,8 @@ class InputHandler
         Direction getDirection() const;
 
     // methodes
-        void update();
         bool quitRequested() const;
+        void update();
 
     private:
     // attributs

@@ -64,7 +64,7 @@ bool Entity::isCollision(const Rectangle& rect1, const Rectangle& rect2) {
     return true;
 }*/
 
-void Entity::handleInput(const InputHandler& input) {
+void Entity::handleInput(const EventHandler& input) {
     Coordinate co = {(double)input.getMouseX(), (double)input.getMouseY()};
     if (input.isMouseButtonPressed(SDL_BUTTON_LEFT) && isCollide({ co.x, co.y })) {
         pos.x = co.x;

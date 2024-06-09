@@ -1,58 +1,58 @@
 // -- IMPLEMENTATION ---------------------------------------------------------------------------- //
 
-#include "Controller/input_handler.hpp"
+#include "Controller/event_handler.hpp"
 
 
 // -- Constructors ------------------------------------------------------------------------------ //
 
-InputHandler::InputHandler() {
+EventHandler::EventHandler() {
     resetStates();
 }
 
-InputHandler::~InputHandler() {
+EventHandler::~EventHandler() {
 }
 
 
 // -- Accesors ---------------------------------------------------------------------------------- //
 
-bool InputHandler::isKeyPressed(SDL_Scancode key) const {
+bool EventHandler::isKeyPressed(SDL_Scancode key) const {
     return keyStates[key] == SDL_TRUE;
 }
 
-bool InputHandler::isKeyPressed(SDL_KeyCode key) const {
+bool EventHandler::isKeyPressed(SDL_KeyCode key) const {
     const Uint8* state = SDL_GetKeyboardState(NULL);
     return state[key] != 0;
 }
 
-bool InputHandler::isMouseButtonPressed(Uint8 button) const {
+bool EventHandler::isMouseButtonPressed(Uint8 button) const {
     return mouseStates[button] == SDL_TRUE;
 }
 
-int InputHandler::getMouseX() const {
+int EventHandler::getMouseX() const {
     return mouseX;
 }
 
-int InputHandler::getMouseY() const {
+int EventHandler::getMouseY() const {
     return mouseY;
 }
 
-int InputHandler::getMouseRelX() const {
+int EventHandler::getMouseRelX() const {
     return mouseRelX;
 }
 
-int InputHandler::getMouseRelY() const {
+int EventHandler::getMouseRelY() const {
     return mouseRelY;
 }
 
-int InputHandler::getMouseWheelX() const {
+int EventHandler::getMouseWheelX() const {
     return mouseWheelX;
 }
 
-int InputHandler::getMouseWheelY() const {
+int EventHandler::getMouseWheelY() const {
     return mouseWheelY;
 }
 
-Direction InputHandler::getDirection() const {
+Direction EventHandler::getDirection() const {
     bool up = isKeyPressed(SDL_SCANCODE_UP) || isKeyPressed(SDL_SCANCODE_W);
     bool down = isKeyPressed(SDL_SCANCODE_DOWN) || isKeyPressed(SDL_SCANCODE_S);
     bool left = isKeyPressed(SDL_SCANCODE_LEFT) || isKeyPressed(SDL_SCANCODE_A);
@@ -82,7 +82,7 @@ Direction InputHandler::getDirection() const {
 
 // -- Methodes ---------------------------------------------------------------------------------- //
 
-void InputHandler::update() {
+void EventHandler::update() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -121,14 +121,13 @@ void InputHandler::update() {
     }
 }
 
-bool InputHandler::quitRequested() const {
+bool EventHandler::quitRequested() const {
     return quitFlag;
 }
 
-
 /* -- Privates Methodes ------------------------------------------------------------------------- */
 
-void InputHandler::resetStates() {
+void EventHandler::resetStates() {
     for (int i = 0; i < SDL_NUM_SCANCODES; ++i) {
         keyStates[i] = SDL_FALSE;
     }

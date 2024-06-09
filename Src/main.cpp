@@ -11,7 +11,7 @@
 
 #include "Model/player.hpp"
 #include "Model/entity.hpp"
-#include "Controller/input_handler.hpp"
+#include "Controller/event_handler.hpp"
 
 const int SCREEN_WIDTH = 1000;
 const int SCREEN_HEIGHT = 600;
@@ -60,23 +60,23 @@ int main()
     // 4.5, 1, 0    imidiately
     // 6, 0.95, -0.5       perfect
     Entity entity(20, 20, 200, 50, 5, 10); 
-    InputHandler input;
+    EventHandler event;
     unsigned int frame_limit = 0;
 
-    while (!input.quitRequested()) {
-        input.update(); 
+    while (!event.quitRequested()) {
+        event.update(); 
 
         // Clear the screen
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
         // Move and draw the player
-        player.handleInput(input);
-        player.move(input);
+        player.handleInput(event);
+        player.move(event);
         player.displayOn(renderer);
 
         // Move and draw the entity
-        entity.handleInput(input);
+        entity.handleInput(event);
         entity.displayOn(renderer);
 
         // Update the screen

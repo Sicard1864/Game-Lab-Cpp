@@ -4,7 +4,7 @@
 #define ENTITY_HPP
 
 #include <SDL2/SDL.h>
-#include "Controller/input_handler.hpp"
+#include "Controller/event_handler.hpp"
 
 
 
@@ -19,7 +19,7 @@ class Entity
 
     // methods
         virtual bool isCollide(const Coordinate &co);
-        virtual void handleInput(const InputHandler&);
+        virtual void handleInput(const EventHandler&);
         virtual void move();
         virtual void displayOn(SDL_Renderer*);
 

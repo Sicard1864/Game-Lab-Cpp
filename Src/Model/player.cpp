@@ -33,7 +33,7 @@ Player::Player(double _x, double _y, int _w, int _h, double _speedMax, double _a
 
 // -- Methods ----------------------------------------------------------------------------------- //
 
-void Player::handleInput(const InputHandler& input) {
+void Player::handleInput(const EventHandler& input) {
     if (input.isKeyPressed(SDL_SCANCODE_T)) {
         if (w < 100) {
             h *= 1.2;
@@ -101,7 +101,7 @@ tuple<Coordinate, Coordinate> Player::coordinateUpdate() {
     //cout << endl << "k1: " << k1 << "\t" << "k2: " << k2 << "\t" << "k3: " << k3;
 }
 
-void Player::move(const InputHandler& input) {
+void Player::move(const EventHandler& input) {
     auto [pos_futur, speed_futur] = coordinateUpdate();
     Coordinate co = {(double)input.getMouseX(), (double)input.getMouseY()};
     if (!isCollide({ co.x, co.y })) {
