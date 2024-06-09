@@ -71,10 +71,10 @@ test: clean c_all run_test
 
 run_all: run_test run
 
-run: $(TARGET)
+run:
 	@./$(TARGET)
 	
-run_test: $(TEST_TARGET)
+run_test:
 	@./$(TEST_TARGET)
 
 c_all: $(TARGET) $(TEST_TARGET)
