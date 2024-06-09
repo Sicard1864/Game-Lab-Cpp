@@ -21,7 +21,7 @@ class Entity
         virtual bool isCollide(const Coordinate &co);
         virtual void handleInput(const EventHandler&);
         virtual void move();
-        virtual void displayOn(SDL_Renderer*);
+        virtual void render(SDL_Renderer*);
 
     protected:
     // attributes

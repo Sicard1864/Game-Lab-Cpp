@@ -110,7 +110,7 @@ void Player::move(const EventHandler& input) {
     }
 }
 
-void Player::displayOn(SDL_Renderer* renderer) {
+void Player::render(SDL_Renderer* renderer) {
     SDL_Rect rect = { (int)pos.x - w/2, (int)pos.y - h/2, w, h };
 
     // Display the square

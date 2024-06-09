@@ -88,7 +88,7 @@ void Entity::move() {
     pos.y += speed.y;
 }
 
-void Entity::displayOn(SDL_Renderer* renderer) {
+void Entity::render(SDL_Renderer* renderer) {
     SDL_Rect rect = { (int)pos.x - w/2, (int)pos.y - h/2, w, h };
 
     // Display the square

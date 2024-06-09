@@ -26,7 +26,7 @@ class Player : public Entity
         void handleInput(const EventHandler&) override;
         tuple<Coordinate, Coordinate> coordinateUpdate();
         void move(const EventHandler& input);
-        void displayOn(SDL_Renderer*) override;
+        void render(SDL_Renderer*) override;
 
     private:
     // attributes

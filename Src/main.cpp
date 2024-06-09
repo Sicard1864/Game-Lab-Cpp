@@ -11,6 +11,7 @@
 
 #include "Model/player.hpp"
 #include "Model/entity.hpp"
+#include "View/renderer.hpp"
 #include "Controller/event_handler.hpp"
 
 const int SCREEN_WIDTH = 1000;
@@ -25,7 +26,6 @@ int main()
     cout << endl << "lanch prog";
 
     SDL_Window *window = nullptr;
-    SDL_Renderer *renderer = nullptr;
 
     if (SDL_Init(SDL_INIT_VIDEO != 0)) {
         cerr << endl << "Erreur SDL_Init : " << SDL_GetError();
@@ -38,56 +38,46 @@ int main()
                             SCREEN_WIDTH, 
                             SCREEN_HEIGHT, 
                             SDL_WINDOW_SHOWN);
-    if (window == nullptr) {
+    // if (window == nullptr) {
+    if (!window) {
         cerr << endl << "Erreur SDL_CreateWindow : " << SDL_GetError();
         SDL_Quit();
         return EXIT_FAILURE;
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == nullptr) {
-        cerr << endl << "Erreur SDL_CreateRenderer : " << SDL_GetError();
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return EXIT_FAILURE;
-    }
+    Renderer renderer(window);
 
-        // f = freq (speed of reponse f->+ sp->+)
-        // z = amplitude of vibration (z=1 not stabilize, z<1 vibrate, z=1 crit, z>1 not vibra)
-        // r = systeme reponse (r>1 overshot, r=1 imidiate, 0<r<1 take time, r<0 anticipate)
     Player player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 10, 10, 5, 10, 7, 0.95, -0.5); 
-    // 4.5, 0.5, 0     late to stop
-    // 4.5, 1, 0    imidiately
-    // 6, 0.95, -0.5       perfect
     Entity entity(20, 20, 200, 50, 5, 10); 
     EventHandler event;
     unsigned int frame_limit = 0;
 
-    while (!event.quitRequested()) {
+    bool isRunning = true;
+    while (isRunning) {
+        isRunning = !event.quitRequested();
         event.update(); 
 
         // Clear the screen
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
+        renderer.setDrawColor(0, 0, 0, 255);
+        renderer.clear();
 
         // Move and draw the player
         player.handleInput(event);
         player.move(event);
-        player.displayOn(renderer);
+        renderer.draw(player);
 
         // Move and draw the entity
         entity.handleInput(event);
-        entity.displayOn(renderer);
+        renderer.draw(entity);
 
         // Update the screen
-        SDL_RenderPresent(renderer);
+        renderer.present();
 
         // à refaire
         frame_limit = SDL_GetTicks() + FPS_LIMIT;
         SDL_Delay(frame_limit - SDL_GetTicks());
     }
 
-    SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
 
