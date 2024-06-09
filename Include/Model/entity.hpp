@@ -16,12 +16,12 @@ class Entity
     // constructors
         Entity();
         Entity(double _x, double _y, int _w, int _h, double _speedMax, double _accelMax);
+        virtual ~Entity();
 
     // methods
-        virtual bool isCollide(const Coordinate &co);
-        virtual void handleInput(const EventHandler&);
-        virtual void move();
+        virtual void update(const EventHandler&);
         virtual void render(SDL_Renderer*);
+        SDL_Rect getRect() const;
 
     protected:
     // attributes

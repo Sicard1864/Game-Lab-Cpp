@@ -32,15 +32,10 @@ Entity::Entity(double _x, double _y, int _w, int _h, double _speedMax, double _a
     accelMax(_accelMax)
 {}
 
+Entity::~Entity() {}
+
 
 // -- Methods ----------------------------------------------------------------------------------- //
-
-bool Entity::isCollide(const Coordinate &co) {
-    if ((pos.x-w < co.x && co.x < pos.x+w) && (pos.y-h < co.y && co.y < pos.y+h)) {
-        return true;
-    }
-    return false;
-}
 
 /*
 bool Entity::isCollision(const Rectangle& rect1, const Rectangle& rect2) {
@@ -64,16 +59,13 @@ bool Entity::isCollision(const Rectangle& rect1, const Rectangle& rect2) {
     return true;
 }*/
 
-void Entity::handleInput(const EventHandler& input) {
+void Entity::update(const EventHandler& input) {
     Coordinate co = {(double)input.getMouseX(), (double)input.getMouseY()};
-    if (input.isMouseButtonPressed(SDL_BUTTON_LEFT) && isCollide({ co.x, co.y })) {
+    if (input.isMouseButtonPressed(SDL_BUTTON_LEFT)) {
         pos.x = co.x;
         pos.y = co.y;
     }
-}
 
-
-void Entity::move() {
     speed.x += accel.x;
     speed.y += accel.y;
 
@@ -95,5 +87,10 @@ void Entity::render(SDL_Renderer* renderer) {
     SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
     SDL_RenderDrawRect(renderer, &rect);
     SDL_RenderFillRect(renderer, &rect);
+}
+
+SDL_Rect Entity::getRect() const {
+    SDL_Rect rect = { (int)pos.x - w/2, (int)pos.y - h/2, w, h };
+    return rect;
 }
 

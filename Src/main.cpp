@@ -9,8 +9,7 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 
-#include "Model/player.hpp"
-#include "Model/entity.hpp"
+#include "Model/game_state.hpp"
 #include "View/renderer.hpp"
 #include "Controller/event_handler.hpp"
 
@@ -32,7 +31,7 @@ int main()
         return EXIT_FAILURE;
     }
 
-    window = SDL_CreateWindow("Simple Game", 
+    window = SDL_CreateWindow("Le Lab", 
                             SDL_WINDOWPOS_UNDEFINED, // à changer
                             SDL_WINDOWPOS_UNDEFINED, // à changer
                             SCREEN_WIDTH, 
@@ -46,6 +45,7 @@ int main()
     }
 
     Renderer renderer(window);
+    GameState gameState;
 
     Player player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 10, 10, 5, 10, 7, 0.95, -0.5); 
     Entity entity(20, 20, 200, 50, 5, 10); 
@@ -56,21 +56,12 @@ int main()
     while (isRunning) {
         isRunning = !event.quitRequested();
         event.update(); 
+        gameState.update(event);
 
-        // Clear the screen
+        // Clear and update the screen
         renderer.setDrawColor(0, 0, 0, 255);
         renderer.clear();
-
-        // Move and draw the player
-        player.handleInput(event);
-        player.move(event);
-        renderer.draw(player);
-
-        // Move and draw the entity
-        entity.handleInput(event);
-        renderer.draw(entity);
-
-        // Update the screen
+        gameState.render(renderer);
         renderer.present();
 
         // à refaire
